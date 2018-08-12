@@ -115,77 +115,90 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
         
         
         let task = urlSession.dataTask(with: urlRequest) { (data, response, error) in
-            print("valor de data \(data!)")
-            guard let data = data else { return }
-            print("valor de data \(data)")
-            
-            
-            DispatchQueue.main.async {
-                //Procesar el json
-                do{
-                    //intentar descondificar el JSON
-                    self.activityView.stopAnimating()
-                    
-                    let decoder = JSONDecoder()
-                    
-                    print("valor de decoder ")
-                    let musicResult = try decoder.decode(Recetas.self, from: data)
-                    let recetas = musicResult.detRecetas //as! [ListaRecetas]
-                    
-                    for var receta in recetas {
-                        print(receta.receta.name)
+          
+            if (data != nil) {
+                
+                guard let data = data else { return }
+                print("valor de data \(data)")
+                
+                
+                DispatchQueue.main.async {
+                    //Procesar el json
+                    do{
+                        //intentar descondificar el JSON
+                        self.activityView.stopAnimating()
                         
-                        if let filePath = Bundle.main.path(forResource: "tortilla", ofType: "jpg"), let image = UIImage(contentsOfFile: filePath) {
+                        let decoder = JSONDecoder()
+                        
+                        print("valor de decoder ")
+                        let musicResult = try decoder.decode(Recetas.self, from: data)
+                        let recetas = musicResult.detRecetas //as! [ListaRecetas]
+                        
+                        for var receta in recetas {
+                            print(receta.receta.name)
                             
-                            print("entro")
+                            if let filePath = Bundle.main.path(forResource: "tortilla", ofType: "jpg"), let image = UIImage(contentsOfFile: filePath) {
+                                
+                                print("entro")
+                                
+                                
+                            }
+                            print("image : \(receta.receta.image)")
+                            let reci =   Recipe(name: receta.receta.name,
+                                                image: UIImage(named: receta.receta.image)!,
+                                                time: receta.receta.time,
+                                                ingredients: ["Patatas", "Huevos", "Cebolla"],
+                                                steps: ["Pelar las patatas y la cebolla",
+                                                        "Cortar las patatas y la cebolla y sofreir",
+                                                        "Batir los huevos y echarlos durante 1 minuto a la sartén con el resto"])
                             
+                            self.recipes.append(reci)
+                            
+                            self.tableView.reloadData()
+                        }
+                        
+                        if let recetas = musicResult.detRecetas.first?.receta
+                        {
+                            let detRecetas = recetas  as! Receta
+                            print("Valor de reseta  \(detRecetas)")
                             
                         }
-                        print("image : \(receta.receta.image)")
-                        let reci =   Recipe(name: receta.receta.name,
-                                            image: UIImage(named: receta.receta.image)!,
-                                            time: receta.receta.time,
-                                            ingredients: ["Patatas", "Huevos", "Cebolla"],
-                                            steps: ["Pelar las patatas y la cebolla",
-                                                    "Cortar las patatas y la cebolla y sofreir",
-                                                    "Batir los huevos y echarlos durante 1 minuto a la sartén con el resto"])
                         
-                        self.recipes.append(reci)
+                        /*
+                         if let songs = musicResult.results.songs.first?.data {
+                         let shuffledSongs = (songs as NSArray).shuffled() as! [Song]
+                         //Mostrar el VC del juego
+                         let gameVC = GameViewController()
+                         gameVC.songs = shuffledSongs
+                         self.present(gameVC, animated: true)
+                         return
+                         }
+                         */
                         
+                    } catch{
+                        //imprimir un mensaje de error al usuario...
+                        print("Fallo")
+                        print(error)
+                        print(error.localizedDescription)
+                        
+                        self.recipes = self.datosDefult()
                         self.tableView.reloadData()
+                          self.activityView.stopAnimating()
                     }
                     
-                    if let recetas = musicResult.detRecetas.first?.receta
-                    {
-                        let detRecetas = recetas  as! Receta
-                        print("Valor de reseta  \(detRecetas)")
-                        
-                    }
                     
-                    /*
-                     if let songs = musicResult.results.songs.first?.data {
-                     let shuffledSongs = (songs as NSArray).shuffled() as! [Song]
-                     //Mostrar el VC del juego
-                     let gameVC = GameViewController()
-                     gameVC.songs = shuffledSongs
-                     self.present(gameVC, animated: true)
-                     return
-                     }
-                     */
-                    
-                } catch{
-                    //imprimir un mensaje de error al usuario...
-                    print("Fallo")
-                    print(error)
-                    print(error.localizedDescription)
-                    
-                    self.recipes = self.datosDefult()
-                    self.tableView.reloadData()
-                   
                 }
                 
+            }else{
+                print("Fallo al consultar el servicio")
+                  self.activityView.stopAnimating()
+               
+                
+                self.recipes = self.datosDefult()
+                self.tableView.reloadData()
                 
             }
+          
         }
         task.resume()
     }

@@ -2,7 +2,7 @@
 //  DetailViewController.swift
 //  MisRecetas
 //
-//  Created by Arnol Peralta on 08/08/18.
+//  Created by Arnol Peralta on 10/08/18.
 //  Copyright © 2018 Arnol Peralta. All rights reserved.
 //
 
