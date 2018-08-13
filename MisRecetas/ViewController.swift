@@ -344,7 +344,7 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var recipe : Recipe!
+        let recipe : Recipe!
         if searchController.isActive{
             recipe = searchResult[indexPath.row]
         }else {
@@ -430,9 +430,18 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
         //Compartir
         let shareAction = UITableViewRowAction(style: .default, title: "Compartir") { (action, indexPath) in
             
-            let shareDefaultText = "Estoy mirando la receta de \(self.recipes[indexPath.row].name!) en la App del curso de iOS 10 con Juan Gabriel"
+            let recipe : Recipe
+            if self.searchController.isActive{
+                recipe = self.searchResult[indexPath.row]
+                  print("Valor seleccionado para compartir")
+                print(recipe)
+            }else {
+                recipe = self.recipes[indexPath.row]
+            }
             
-            let activityController = UIActivityViewController(activityItems: [shareDefaultText, self.recipes[indexPath.row].image!], applicationActivities: nil)
+            let shareDefaultText = "Estoy mirando la receta de \(recipe.name!) en la App del curso de iOS 11 con Arnol"
+            
+            let activityController = UIActivityViewController(activityItems: [shareDefaultText, recipe.image!], applicationActivities: nil)
             
             activityController.popoverPresentationController?.sourceView = self.view
             
