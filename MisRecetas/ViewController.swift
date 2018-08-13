@@ -7,28 +7,42 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UITableViewController { /*UITableViewController, UITableViewDataSource, UITableViewDelegate*/
     
     //var recipes = ["Tortillas de patatas"]
     let urlServicio = "http://192.168.100.13:9098/rest/detalleResetas"
+    var searchResult : [Recipe] = []
     var recipes : [Recipe] = []
     let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    var fetchResultsController : NSFetchedResultsController<RecetaCocina>!
+    var searchController: UISearchController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-      
-      
+        
+        self.searchController = UISearchController(searchResultsController: nil)
+        self.tableView.tableHeaderView = self.searchController.searchBar
+        self.searchController.searchResultsUpdater = self
+            
+        self.searchController.dimsBackgroundDuringPresentation = false
+        self.searchController.searchBar.placeholder = "Buscar lugares..."
+        self.searchController.searchBar.tintColor = UIColor.white
+        self.searchController.searchBar.barTintColor = UIColor.darkGray
+        
+        
         /*Carga de activity */
         self.cargaActivity()
        
         /*Carga de servicio*/
         self.cargarDatos()
         
-        
+        /*Carga Datos del coreDate */
+      //  self.llenarCoreData()
      
         
     }
@@ -105,6 +119,108 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
         activityView.color = UIColor.blue
         self.view.addSubview(activityView)
     }
+    
+    func llenarCoreData()  {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "RecetaCocina", in: context)
+        
+         print("recipe \(self.recipes.count)" )
+       var id = 0
+        
+       
+        
+        for var recipe in self.recipes{
+            print("recipe \(self.recipes.count)" )
+            id = id + 1
+            let newReceta = NSManagedObject(entity: entity!, insertInto: context)
+            newReceta.setValue(id, forKey: "id")
+            newReceta.setValue(recipe.name, forKey: "name")
+            newReceta.setValue(recipe.time, forKey: "time")
+            newReceta.setValue(recipe.name, forKey: "image")
+        }
+        
+        
+        
+        do {
+            try context.save()
+        } catch {
+            print("Failed saving")
+        }
+        
+        print("Obtener el valor de receta")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RecetaCocina")
+        //request.predicate = NSPredicate(format: "age = %@", "12")
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            var ids = 0
+            for data in result as! [NSManagedObject] {
+                ids += 1
+                print(ids)
+                print(data.value(forKey: "name") as! String)
+                
+              /*  if let container = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
+                    let context = container.viewContext
+                   // let placeToDelete = self.fetchResultsController.object(at: ids as! IndexPath)
+                    context.delete(data)
+                    
+                    do {
+                        try context.save()
+                    } catch {
+                        print("Error \(error)")
+                    }
+                    
+                }*/
+                
+                
+            }
+            
+        } catch {
+            
+            print("Failed Coredate")
+        }
+    }
+    
+    func eliminarCoreData(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "RecetaCocina", in: context)
+        
+        print("Obtener el valor de receta")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "RecetaCocina")
+        //request.predicate = NSPredicate(format: "age = %@", "12")
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            var ids = 0
+            for data in result as! [NSManagedObject] {
+                ids += 1
+                print(ids)
+                print(data.value(forKey: "name") as! String)
+                
+                  if let container = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
+                         let context = container.viewContext
+                         // let placeToDelete = self.fetchResultsController.object(at: ids as! IndexPath)
+                         print("Elimino \(data.value(forKey: "id"))")
+                         context.delete(data)
+                    
+                         do {
+                         try context.save()
+                         } catch {
+                         print("Error \(error)")
+                         }
+                 
+                 }
+                
+                
+            }
+            
+        } catch {
+            
+            print("Failed Coredate")
+        }
+    }
 
     func cargarDatos()  {
         
@@ -155,6 +271,10 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
                             self.recipes.append(reci)
                             
                             self.tableView.reloadData()
+                            
+                           
+                            
+                            
                         }
                         
                         if let recetas = musicResult.detRecetas.first?.receta
@@ -174,6 +294,12 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
                          return
                          }
                          */
+                        
+                       
+                        /*Eliminar los datos actualues coredata*/
+                        self.eliminarCoreData()
+                        /*LLenar los datos del servicio*/
+                        self.llenarCoreData()
                         
                     } catch{
                         //imprimir un mensaje de error al usuario...
@@ -209,11 +335,22 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.recipes.count
+        if self.searchController.isActive{
+             return self.searchResult.count
+        }else{
+             return self.recipes.count
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let recipe = recipes[indexPath.row]
+        var recipe : Recipe!
+        if searchController.isActive{
+            recipe = searchResult[indexPath.row]
+        }else {
+            recipe = recipes[indexPath.row]
+        }
+        //let recipe = recipes[indexPath.row]
         let cellID = "RecipeCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! RecipeCell
         cell.thumbnailImageView.image = recipe.image
@@ -328,9 +465,31 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
     }
     
     
+    func filterContentFor(textToSearch: String)  {
+        self.searchResult = self.recipes.filter({ (recipe) -> Bool in
+            let recipeToFind = recipe.name.range(of: textToSearch,options: NSString.CompareOptions.caseInsensitive)
+            return recipeToFind != nil
+            
+        })
+    }
     
 
 }
+
+
+extension ViewController : UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            self.filterContentFor(textToSearch: searchText)
+            self.tableView.reloadData()
+        }
+        
+        
+    }
+}
+
+ 
+
 
 
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B1E33A62120DA27006EB7F7 /* Receta.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1B1E33A42120DA27006EB7F7 /* Receta.xcdatamodeld */; };
+		1B1E33C92120E006006EB7F7 /* Receta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1E33C82120E006006EB7F7 /* Receta.swift */; };
 		1B2E48D6211BFE0D0080D3B0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2E48D5211BFE0D0080D3B0 /* DetailViewController.swift */; };
 		1B2E48D8211F3CC90080D3B0 /* RecipeDetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2E48D7211F3CC90080D3B0 /* RecipeDetailViewCell.swift */; };
 		1B2E48DA211FE03A0080D3B0 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2E48D9211FE03A0080D3B0 /* ReviewViewController.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B1E33A52120DA27006EB7F7 /* Receta.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Receta.xcdatamodel; sourceTree = "<group>"; };
+		1B1E33C82120E006006EB7F7 /* Receta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receta.swift; sourceTree = "<group>"; };
 		1B2E48D5211BFE0D0080D3B0 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		1B2E48D7211F3CC90080D3B0 /* RecipeDetailViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewCell.swift; sourceTree = "<group>"; };
 		1B2E48D9211FE03A0080D3B0 /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
@@ -69,9 +73,11 @@
 			isa = PBXGroup;
 			children = (
 				1B6D7170210510FD0097DAA2 /* AppDelegate.swift */,
+				1B1E33A42120DA27006EB7F7 /* Receta.xcdatamodeld */,
 				1B6D7172210510FD0097DAA2 /* ViewController.swift */,
 				1B2E48D5211BFE0D0080D3B0 /* DetailViewController.swift */,
 				1B5BD09C210EC39B00734BF4 /* Recetas.swift */,
+				1B1E33C82120E006006EB7F7 /* Receta.swift */,
 				1B6D7182210514720097DAA2 /* Recipe.swift */,
 				1B6D7174210510FD0097DAA2 /* Main.storyboard */,
 				1B2E48D9211FE03A0080D3B0 /* ReviewViewController.swift */,
@@ -158,11 +164,13 @@
 			files = (
 				1B6D718721052B430097DAA2 /* RecipeCell.swift in Sources */,
 				1B6D7183210514720097DAA2 /* Recipe.swift in Sources */,
+				1B1E33C92120E006006EB7F7 /* Receta.swift in Sources */,
 				1B6D7173210510FD0097DAA2 /* ViewController.swift in Sources */,
 				1B5BD09D210EC39B00734BF4 /* Recetas.swift in Sources */,
 				1B2E48D8211F3CC90080D3B0 /* RecipeDetailViewCell.swift in Sources */,
 				1B6D71852105204D0097DAA2 /* SingleViewController.swift in Sources */,
 				1B6D7171210510FD0097DAA2 /* AppDelegate.swift in Sources */,
+				1B1E33A62120DA27006EB7F7 /* Receta.xcdatamodeld in Sources */,
 				1B2E48D6211BFE0D0080D3B0 /* DetailViewController.swift in Sources */,
 				1B2E48DA211FE03A0080D3B0 /* ReviewViewController.swift in Sources */,
 			);
@@ -362,6 +370,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1B1E33A42120DA27006EB7F7 /* Receta.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1B1E33A52120DA27006EB7F7 /* Receta.xcdatamodel */,
+			);
+			currentVersion = 1B1E33A52120DA27006EB7F7 /* Receta.xcdatamodel */;
+			path = Receta.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1B6D7165210510FD0097DAA2 /* Project object */;
 }
