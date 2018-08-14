@@ -53,6 +53,14 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let pageVC = storyboard?.instantiateViewController(withIdentifier: "WaikThroughController") as? TutorialPageViewController {
+            self.present(pageVC,animated: true,completion: nil)
+        }
+        
+    }
+    
     func datosDefult() -> [Recipe] {
         
           var recipe = Recipe(name: "Tortilla de patatas",
