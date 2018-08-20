@@ -45,18 +45,25 @@ class TutorialPageViewController: UIPageViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func forward(toIndex: Int) {
+        if let nextVC = self.pageViewController(atIndex: toIndex + 1) {
+            self.setViewControllers([nextVC], direction: .forward, animated: true, completion: nil)
+        }
+    }
 
 }
 extension TutorialPageViewController : UIPageViewControllerDataSource {
+    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         var index = (viewController as! TutorialContentViewControler).tutorial.index
-        index += 1
+        index -= 1
        return self.pageViewController(atIndex: index)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         var index = (viewController as! TutorialContentViewControler).tutorial.index
-        index -= 1
+        index += 1
         return self.pageViewController(atIndex: index)
     }
     

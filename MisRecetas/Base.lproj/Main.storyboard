@@ -390,6 +390,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tuto-intro-1" translatesAutoresizingMaskIntoConstraints="NO" id="1dh-Nq-g0Z">
                                 <rect key="frame" x="20" y="98" width="335" height="335"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="335" id="9nQ-2M-Pd6"/>
+                                    <constraint firstAttribute="height" constant="335" id="ZzN-q4-0UI"/>
                                     <constraint firstAttribute="width" secondItem="1dh-Nq-g0Z" secondAttribute="height" multiplier="1:1" id="jDa-YR-9Jc"/>
                                 </constraints>
                             </imageView>
@@ -402,24 +404,48 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="NyZ-F5-6Sq">
+                                <rect key="frame" x="168" y="561" width="39" height="37"/>
+                                <subviews>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="7QZ-PR-HwP">
+                                        <rect key="frame" x="0.0" y="0.0" width="39" height="37"/>
+                                    </pageControl>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VdC-1e-plj">
+                                <rect key="frame" x="276" y="611" width="79" height="36"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <state key="normal" title="Siguiente">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nextTutorial:" destination="Qzl-Ar-j1O" eventType="touchUpInside" id="tSz-4v-aaJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.71066550821562757" blue="0.87041896937109797" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="qLF-5B-8OF" firstAttribute="top" secondItem="1dh-Nq-g0Z" secondAttribute="bottom" constant="8" id="7eI-1I-qK8"/>
+                            <constraint firstItem="NyZ-F5-6Sq" firstAttribute="centerX" secondItem="coj-NS-AFD" secondAttribute="centerX" id="D3d-6z-I98"/>
                             <constraint firstItem="30Z-KW-2b6" firstAttribute="trailing" secondItem="1dh-Nq-g0Z" secondAttribute="trailing" constant="20" id="Dcx-jF-0og"/>
                             <constraint firstItem="sEr-Ct-jSm" firstAttribute="top" secondItem="30Z-KW-2b6" secondAttribute="top" constant="8" id="GWW-BC-dMw"/>
                             <constraint firstItem="1dh-Nq-g0Z" firstAttribute="top" secondItem="sEr-Ct-jSm" secondAttribute="bottom" constant="20" id="H5q-3k-veW"/>
+                            <constraint firstItem="30Z-KW-2b6" firstAttribute="trailing" secondItem="VdC-1e-plj" secondAttribute="trailing" constant="20" id="JLY-ep-hhY"/>
                             <constraint firstItem="1dh-Nq-g0Z" firstAttribute="leading" secondItem="30Z-KW-2b6" secondAttribute="leading" constant="20" id="Qms-ZM-LjQ"/>
+                            <constraint firstItem="7QZ-PR-HwP" firstAttribute="top" secondItem="qLF-5B-8OF" secondAttribute="bottom" constant="10" id="XfA-Q9-3MY"/>
                             <constraint firstItem="1dh-Nq-g0Z" firstAttribute="centerX" secondItem="coj-NS-AFD" secondAttribute="centerX" id="YJC-Aj-20A"/>
                             <constraint firstItem="30Z-KW-2b6" firstAttribute="trailing" secondItem="qLF-5B-8OF" secondAttribute="trailing" id="YSo-iX-atr"/>
                             <constraint firstItem="qLF-5B-8OF" firstAttribute="leading" secondItem="30Z-KW-2b6" secondAttribute="leading" id="bTq-UE-1pi"/>
                             <constraint firstItem="sEr-Ct-jSm" firstAttribute="centerX" secondItem="coj-NS-AFD" secondAttribute="centerX" id="qCh-SU-QgE"/>
+                            <constraint firstItem="30Z-KW-2b6" firstAttribute="bottom" secondItem="VdC-1e-plj" secondAttribute="bottom" constant="20" id="tNJ-ie-1IM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="30Z-KW-2b6"/>
                     </view>
                     <connections>
                         <outlet property="descripcion" destination="qLF-5B-8OF" id="f7Y-GQ-gxt"/>
                         <outlet property="image" destination="1dh-Nq-g0Z" id="Mpz-d8-aD9"/>
+                        <outlet property="nextButton" destination="VdC-1e-plj" id="eeU-S2-x5b"/>
+                        <outlet property="pageControl" destination="7QZ-PR-HwP" id="BWr-rr-nfN"/>
                         <outlet property="titulo" destination="sEr-Ct-jSm" id="a51-Cz-9Xy"/>
                     </connections>
                 </viewController>

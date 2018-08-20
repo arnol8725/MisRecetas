@@ -55,9 +55,18 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let pageVC = storyboard?.instantiateViewController(withIdentifier: "WaikThroughController") as? TutorialPageViewController {
-            self.present(pageVC,animated: true,completion: nil)
+        
+        let defaults = UserDefaults.standard
+        //defaults.set(false, forKey: "hasViewedTutorial")
+        let hasviewed = defaults.bool(forKey: "hasViewedTutorial")
+        
+        if (!hasviewed){
+            if let pageVC = storyboard?.instantiateViewController(withIdentifier: "WaikThroughController") as? TutorialPageViewController {
+                self.present(pageVC,animated: true,completion: nil)
+            }
         }
+        
+        
         
     }
     
@@ -426,9 +435,11 @@ class ViewController: UITableViewController { /*UITableViewController, UITableVi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showRecipeDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
+               self.searchController.dimsBackgroundDuringPresentation = true
                 let selectRecipe = self.recipes[indexPath.row]
                 let destinationViewController = segue.destination as! DetailViewController
                 destinationViewController.recipe = selectRecipe
+                
             }
         }
     }
